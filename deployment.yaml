@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: my-app-deployment
+    spec:
+    replicas: 3
+    selector:
+    matchLabels:
+    app: my-app
+    template:
+    metadata:
+    labels:
+    app: my-app
+    spec:
+    containers:
+    - name: my-app-container
+    image: gcr.io/devops-assesment-449901/my-app-image:latest
+    ports:
+    - containerPort: 8080
+    env: # Placeholder for the secret (will be injected by Argo CD)
+    - name: MY_SECRET
+    valueFrom:
+    secretKeyRef:
+    name: my-app-secrets # Kubernetes Secret name (will be created by Argo CD)
+    key: my-secret # Key in the Vault secret
